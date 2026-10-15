@@ -23,7 +23,7 @@ export function getStellarServerOptions(
     allowHttp: isDev && isLoopbackHttpUrl(url),
   };
 
-  const headerStr = header || process.env.NEXT_PUBLIC_SOROBAN_RPC_HEADER;
+  const headerStr = header !== undefined ? header : process.env.NEXT_PUBLIC_SOROBAN_RPC_HEADER;
   if (headerStr && headerStr.trim()) {
     try {
       if (headerStr.trim().startsWith('{')) {

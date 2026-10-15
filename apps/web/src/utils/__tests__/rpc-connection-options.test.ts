@@ -43,6 +43,12 @@ describe("getStellarServerOptions", () => {
     expect(options.headers).toEqual({ "x-key": "env-secret" });
   });
 
+  it("should respect explicit empty string header even when env variable is present", () => {
+    process.env.NEXT_PUBLIC_SOROBAN_RPC_HEADER = "x-key: env-secret";
+    const options = getStellarServerOptions("https://soroban-testnet.stellar.org", "");
+    expect(options.headers).toBeUndefined();
+  });
+
   it("should return empty/undefined headers if no header is provided", () => {
     delete process.env.NEXT_PUBLIC_SOROBAN_RPC_HEADER;
     const options = getStellarServerOptions("https://soroban-testnet.stellar.org");
