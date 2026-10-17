@@ -149,6 +149,9 @@ export interface CampaignRecord {
   id: string;
   creator: string;
   creatorEmail?: string;
+  /** Optional creator-authored copy for post-pledge thank-you emails. */
+  pledgeThankYouGreeting?: string;
+  pledgeThankYouBody?: string;
   name: string;
   description?: string;
   /** Detected ISO 639-1 language code of the campaign description. */
@@ -705,7 +708,6 @@ export async function recordCampaignContribution(
   const newlyReached = reached.filter((percentage) => !notified.includes(percentage));
 
   if (newlyReached.length > 0 && campaign.creatorEmail && !campaign.notificationPreferences?.length) {
-  if (newlyReached.length > 0 && campaign.creatorEmail) {
     // Build impact metrics to include in every milestone email (#983).
     // CO2 estimate: use a conservative average of 20 kg CO2/tree/year.
     const CO2_KG_PER_TREE_PER_YEAR = 20;
@@ -764,6 +766,8 @@ export async function createCampaign(input: {
   id?: string;
   creator: string;
   creatorEmail?: string;
+  pledgeThankYouGreeting?: string;
+  pledgeThankYouBody?: string;
   name: string;
   description?: string;
   language?: string;
@@ -805,6 +809,8 @@ export async function createCampaign(input: {
     id: input.id ?? crypto.randomUUID(),
     creator: input.creator,
     creatorEmail: input.creatorEmail,
+    pledgeThankYouGreeting: input.pledgeThankYouGreeting,
+    pledgeThankYouBody: input.pledgeThankYouBody,
     name: input.name,
     description: input.description,
     language: input.language ?? detectCampaignLanguage(input.description),

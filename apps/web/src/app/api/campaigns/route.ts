@@ -72,6 +72,8 @@ async function postCampaign(request: Request) {
     const body = await request.json() as {
       creator?: string;
       creatorEmail?: string;
+      pledgeThankYouGreeting?: string;
+      pledgeThankYouBody?: string;
       name?: string;
       description?: string;
       location?: string;
@@ -101,6 +103,12 @@ async function postCampaign(request: Request) {
     };
     if (!body.creator || !body.name || !body.goalAmount) {
       return Response.json({ error: "creator, name, and goalAmount are required" }, { status: 400 });
+    }
+    if (body.pledgeThankYouGreeting !== undefined && (typeof body.pledgeThankYouGreeting !== "string" || body.pledgeThankYouGreeting.length > 240)) {
+      return Response.json({ error: "pledgeThankYouGreeting must be 240 characters or fewer" }, { status: 400 });
+    }
+    if (body.pledgeThankYouBody !== undefined && (typeof body.pledgeThankYouBody !== "string" || body.pledgeThankYouBody.length > 2000)) {
+      return Response.json({ error: "pledgeThankYouBody must be 2,000 characters or fewer" }, { status: 400 });
     }
     if (!/^\d+$/.test(body.goalAmount)) {
       return Response.json({ error: "goalAmount must be a non-negative integer string" }, { status: 400 });
@@ -246,6 +254,8 @@ const description = body.description ?? "";
     const campaign = await createCampaign({
       creator: body.creator,
       creatorEmail: body.creatorEmail,
+      pledgeThankYouGreeting: body.pledgeThankYouGreeting,
+      pledgeThankYouBody: body.pledgeThankYouBody,
       name: body.name,
       description,
       location: body.location,
