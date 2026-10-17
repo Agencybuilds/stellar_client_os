@@ -6,6 +6,7 @@ import { getCampaign } from "@/services/campaign.service";
 import { VerificationEvidenceGallery } from "@/components/campaign/VerificationEvidenceGallery";
 import { CampaignImpactCalculator } from "@/components/modules/impact/CampaignImpactCalculator";
 import { CampaignDonationPanel } from "@/components/modules/campaign/donation/CampaignDonationPanel";
+import { RewardTiersInstalmentCheckout } from "@/components/modules/campaign/instalments/RewardTiersInstalmentCheckout";
 import { InAppSurveyNotificationBanner } from "@/components/modules/campaign/survey/InAppSurveyNotificationBanner";
 import { CreatorSurveyResultsDashboard } from "@/components/modules/campaign/survey/CreatorSurveyResultsDashboard";
 
@@ -88,6 +89,15 @@ export default async function CampaignPage({
         <CampaignDonationPanel
           campaignId={campaign.id}
           campaignName={campaign.name}
+        />
+      </section>
+
+      {/* Reward Tiers & Monthly Instalment Plans */}
+      <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+        <RewardTiersInstalmentCheckout
+          campaignId={campaign.id}
+          creatorAddress={campaign.creatorAddress}
+          campaignCloseDate={campaign.deadline}
         />
       </section>
 
