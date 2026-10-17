@@ -34,6 +34,7 @@ import { CampaignFollowButton } from "@/components/modules/campaign/follow/Campa
 import { TopBackers } from "@/components/modules/campaign/backers/TopBackers";
 import { TOP_BACKERS_LIMIT } from "@/types/campaign-backers";
 import { CampaignFundingVelocityChart } from "@/components/modules/campaign/FundingVelocityChart";
+import { FundingCounter } from "@/components/modules/campaign/FundingCounter";
 import { CampaignAccessibilityControls } from "@/components/modules/campaign/CampaignAccessibilityControls";
 import { CampaignImpactCalculator } from "@/components/modules/impact/CampaignImpactCalculator";
 import { CampaignFollow } from "@/components/modules/campaign/CampaignFollow";
@@ -355,15 +356,6 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
   const [translationLang, setTranslationLang] = useState<TranslationKey | "">("");
   const translation = translationLang ? translations[translationLang] : null;
 
-  const progressPct = Math.min(
-    100,
-    Math.round(
-      (parseFloat(campaign.raisedAmount.replace(/,/g, "")) /
-        parseFloat(campaign.goalAmount.replace(/,/g, ""))) *
-        100
-    )
-  );
-
   return (
     <div
       dir={translationLang === "ar" || translationLang === "fa" || translationLang === "he" || translationLang === "ur" ? "rtl" : "ltr"}
@@ -525,8 +517,14 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
             </div>
           </div>
 
-          {/* Raise Goal Card */}
+          {/* Raise Goal Card — rolling real-time funding counter (#1259) */}
           <div className="w-full md:w-80 rounded-xl border border-zinc-800 bg-zinc-950/80 p-5 space-y-4 shadow-xl">
+            <FundingCounter
+              campaignId={campaign.id}
+              initialRaised={campaign.raisedAmount}
+              initialGoal={campaign.goalAmount}
+              token={campaign.token}
+            />
             <div className="flex items-baseline justify-between">
               <span className="text-xs font-semibold text-zinc-400">Total Raised</span>
               <span className="text-xs font-bold text-emerald-400">{progressPct}% Funded</span>
