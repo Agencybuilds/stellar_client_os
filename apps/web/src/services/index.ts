@@ -109,3 +109,9 @@ export {
   campaignImpactNftService,
   ImpactNFTError,
 } from './campaign-impact-nft.service';
+export {
+  CampaignMilestoneReleaseService,
+  campaignMilestoneReleaseService,
+  VOTING_WINDOW_HOURS,
+  VOTING_WINDOW_MS,
+} from './campaign-milestone-release.service';
