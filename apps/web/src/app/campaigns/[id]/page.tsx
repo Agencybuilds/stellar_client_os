@@ -10,6 +10,8 @@ import { RewardTiersInstalmentCheckout } from "@/components/modules/campaign/ins
 import { InAppSurveyNotificationBanner } from "@/components/modules/campaign/survey/InAppSurveyNotificationBanner";
 import { CreatorSurveyResultsDashboard } from "@/components/modules/campaign/survey/CreatorSurveyResultsDashboard";
 
+import { CampaignComplianceDocumentsList } from "@/components/modules/campaign/compliance/CampaignComplianceDocumentsList";
+
 export const runtime = "nodejs";
 
 export default async function CampaignPage({
@@ -102,6 +104,16 @@ export default async function CampaignPage({
       </section>
 
       <VerificationEvidenceGallery evidence={campaign.verificationEvidence ?? []} />
+
+      {/* Compliance & Due Diligence Documents */}
+      <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+        <CampaignComplianceDocumentsList
+          campaignId={campaign.id}
+          creatorAddress={campaign.creatorAddress}
+          canManage={true}
+          isAdmin={true}
+        />
+      </section>
 
       {/* Post-Campaign Backer Survey & Feedback Analytics */}
       <CreatorSurveyResultsDashboard
