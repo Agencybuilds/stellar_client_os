@@ -30,6 +30,7 @@ import { BackerCommunity } from "@/components/modules/campaign/community/BackerC
 import { TopBackers } from "@/components/modules/campaign/backers/TopBackers";
 import { TOP_BACKERS_LIMIT } from "@/types/campaign-backers";
 import { CampaignFundingVelocityChart } from "@/components/modules/campaign/FundingVelocityChart";
+import { FundingCounter } from "@/components/modules/campaign/FundingCounter";
 
 const translations = {
   es: {
@@ -121,15 +122,6 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
   const detectedLanguageName = languageNames[detectedLang] ?? detectedLang;
   const [translationLang, setTranslationLang] = useState<TranslationKey | "">("");
   const translation = translationLang ? translations[translationLang] : null;
-
-  const progressPct = Math.min(
-    100,
-    Math.round(
-      (parseFloat(campaign.raisedAmount.replace(/,/g, "")) /
-        parseFloat(campaign.goalAmount.replace(/,/g, ""))) *
-        100
-    )
-  );
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl space-y-8">
@@ -241,26 +233,14 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
             </div>
           </div>
 
-          {/* Raise Goal Card */}
+          {/* Raise Goal Card — rolling real-time funding counter (#1259) */}
           <div className="w-full md:w-80 rounded-xl border border-zinc-800 bg-zinc-950/80 p-5 space-y-4 shadow-xl">
-            <div className="flex items-baseline justify-between">
-              <span className="text-xs font-semibold text-zinc-400">Total Raised</span>
-              <span className="text-xs font-bold text-emerald-400">{progressPct}% Funded</span>
-            </div>
-
-            <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-black text-zinc-50">{campaign.raisedAmount}</span>
-              <span className="text-sm font-semibold text-purple-400">{campaign.token}</span>
-              <span className="text-xs text-zinc-500">/ {campaign.goalAmount}</span>
-            </div>
-
-            {/* Progress bar */}
-            <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-800">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-purple-500 via-indigo-500 to-emerald-400 transition-all duration-500"
-                style={{ width: `${progressPct}%` }}
-              />
-            </div>
+            <FundingCounter
+              campaignId={campaign.id}
+              initialRaised={campaign.raisedAmount}
+              initialGoal={campaign.goalAmount}
+              token={campaign.token}
+            />
 
             <Button className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 font-bold text-white hover:from-emerald-700 hover:to-teal-700 shadow-md">
               <Heart className="mr-2 h-4 w-4 fill-white" /> Sponsor This Campaign
