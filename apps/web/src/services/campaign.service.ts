@@ -178,6 +178,8 @@ export interface CampaignRecord {
   /** Optional broad geographic region for discovery filtering. */
   region?: string;
   /** Intended campaign duration in milliseconds, used for duplicate detection. */
+  /** Optional campaign category (e.g., Environmental & Reforestation). */
+  category?: string;
   durationMs?: number;
   status: CampaignStatus;
   goalAmount: string;
@@ -776,6 +778,7 @@ export async function createCampaign(input: {
   location?: string;
   countries?: string[];
   speciesTags?: string[];
+  category?: string;
   region?: string;
   treeSpecies?: string;
 /** GPS coordinates of the campaign's planting site(s), stored for the global
@@ -819,6 +822,7 @@ export async function createCampaign(input: {
     location: input.location,
     countries: input.countries,
     speciesTags: input.speciesTags ?? [],
+    category: input.category,
     region: input.region,
     treeSpecies: input.treeSpecies,
 gpsLocations: input.gpsLocations,

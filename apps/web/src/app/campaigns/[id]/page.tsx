@@ -11,6 +11,7 @@ import { InAppSurveyNotificationBanner } from "@/components/modules/campaign/sur
 import { CreatorSurveyResultsDashboard } from "@/components/modules/campaign/survey/CreatorSurveyResultsDashboard";
 
 import { CampaignComplianceDocumentsList } from "@/components/modules/campaign/compliance/CampaignComplianceDocumentsList";
+import { RelatedCampaignsShelf } from "@/components/campaign/RelatedCampaignsShelf";
 
 export const runtime = "nodejs";
 
@@ -121,6 +122,9 @@ export default async function CampaignPage({
         creatorAddress={campaign.creatorAddress}
         campaignStatus={campaign.status}
       />
+
+      {/* Horizontally Scrollable Related Campaigns Shelf */}
+      <RelatedCampaignsShelf currentCampaignId={campaign.id} />
     </main>
   );
 }
