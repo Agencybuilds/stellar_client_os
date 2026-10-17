@@ -387,6 +387,11 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
               <Edit className="mr-1.5 h-3.5 w-3.5" /> Edit Campaign
             </Button>
           </Link>
+          <Link href="/campaigns/social-scheduler">
+            <Button size="sm" variant="outline" className="border-sky-600/40 text-sky-300 hover:bg-sky-950/40 text-xs">
+              Schedule Promotions
+            </Button>
+          </Link>
           <Button
             size="sm"
             variant="outline"
