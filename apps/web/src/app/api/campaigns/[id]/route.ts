@@ -63,6 +63,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       reason?: string;
       name?: string;
       description?: string;
+      pledgeThankYouGreeting?: string;
+      pledgeThankYouBody?: string;
       language?: string;
       translations?: Record<string, string>;
       localizedContent?: Record<string, { name?: string; title?: string; description?: string; location?: string; treeSpecies?: string; region?: string }>;
@@ -121,12 +123,18 @@ if (body.fundsRaised !== undefined && (!Number.isFinite(body.fundsRaised) || bod
     if (body.location !== undefined && typeof body.location !== "string") {
       return noStore({ error: "location must be a string" }, { status: 400 });
     }
+    if (body.pledgeThankYouGreeting !== undefined && (typeof body.pledgeThankYouGreeting !== "string" || body.pledgeThankYouGreeting.length > 240)) {
+      return noStore({ error: "pledgeThankYouGreeting must be 240 characters or fewer" }, { status: 400 });
+    }
+    if (body.pledgeThankYouBody !== undefined && (typeof body.pledgeThankYouBody !== "string" || body.pledgeThankYouBody.length > 2000)) {
+      return noStore({ error: "pledgeThankYouBody must be 2,000 characters or fewer" }, { status: 400 });
+    }
     let updated = campaign;
     if (body.status) {
       if (!body.changedBy) return noStore({ error: "changedBy is required when changing status" }, { status: 400 });
       updated = await transitionCampaignStatus(campaign, body.status, body.changedBy, body.reason);
     }
-if (body.name !== undefined || body.description !== undefined || body.language !== undefined || body.translations !== undefined || body.localizedContent !== undefined || body.autoTranslate !== undefined || body.treeCount !== undefined || body.co2Sequestration !== undefined || body.speciesCount !== undefined) {
+if (body.name !== undefined || body.description !== undefined || body.language !== undefined || body.translations !== undefined || body.localizedContent !== undefined || body.autoTranslate !== undefined || body.treeCount !== undefined || body.co2Sequestration !== undefined || body.speciesCount !== undefined || body.pledgeThankYouGreeting !== undefined || body.pledgeThankYouBody !== undefined) {
       const language = body.language ? normalizeTranslationLocale(body.language)! : updated.language ?? detectLanguage(body.description ?? updated.description ?? "");
       const translations = { ...updated.translations, ...body.translations };
       const description = body.description ?? updated.description ?? "";
@@ -138,6 +146,8 @@ if (body.name !== undefined || body.description !== undefined || body.language !
         ...updated,
         name: body.name ?? updated.name,
         description,
+        pledgeThankYouGreeting: body.pledgeThankYouGreeting ?? updated.pledgeThankYouGreeting,
+        pledgeThankYouBody: body.pledgeThankYouBody ?? updated.pledgeThankYouBody,
         language,
         translations,
         localizedContent,

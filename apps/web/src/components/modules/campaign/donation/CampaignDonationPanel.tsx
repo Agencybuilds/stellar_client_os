@@ -48,6 +48,8 @@ export function CampaignDonationPanel({
   const { address, isConnected, openModal } = useWallet();
 
   const [amount, setAmount] = useState("");
+  const [donorName, setDonorName] = useState("");
+  const [donorEmail, setDonorEmail] = useState("");
   const [token, setToken] = useState<DonationToken>(defaultToken);
   const [message, setMessage] = useState("");
   const [anonymous, setAnonymous] = useState(false);
@@ -57,6 +59,8 @@ export function CampaignDonationPanel({
 
   const reset = () => {
     setAmount("");
+    setDonorName("");
+    setDonorEmail("");
     setMessage("");
     setAnonymous(false);
     setError("");
@@ -84,6 +88,8 @@ export function CampaignDonationPanel({
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           donorAddress: address,
+          donorName: donorName.trim() || undefined,
+          donorEmail: donorEmail.trim() || undefined,
           amount,
           token,
           message: message.trim() || undefined,
@@ -240,6 +246,37 @@ export function CampaignDonationPanel({
               </option>
             ))}
           </select>
+        </div>
+      </div>
+
+      <div className="mt-5 grid gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor="donation-donor-name" className="block text-sm text-zinc-300">
+            Your name (optional)
+          </label>
+          <Input
+            id="donation-donor-name"
+            data-testid="donation-donor-name"
+            maxLength={120}
+            autoComplete="name"
+            value={donorName}
+            onChange={(event) => setDonorName(event.target.value)}
+            className="mt-2"
+          />
+        </div>
+        <div>
+          <label htmlFor="donation-donor-email" className="block text-sm text-zinc-300">
+            Email for a thank-you note (optional)
+          </label>
+          <Input
+            id="donation-donor-email"
+            data-testid="donation-donor-email"
+            type="email"
+            autoComplete="email"
+            value={donorEmail}
+            onChange={(event) => setDonorEmail(event.target.value)}
+            className="mt-2"
+          />
         </div>
       </div>
 
