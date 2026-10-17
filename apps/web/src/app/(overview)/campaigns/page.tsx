@@ -10,6 +10,7 @@ import SuccessStories from "@/components/modules/campaign/success-stories/Succes
 import { CampaignAccessibilityControls } from "@/components/modules/campaign/CampaignAccessibilityControls";
 import { CampaignSearchPanel } from "@/components/modules/campaign/CampaignSearchPanel";
 import { useCampaigns } from "@/hooks/use-campaigns";
+import { CharityBadge } from "@/components/modules/campaign/CharityBadge";
 import { useCampaignWishlist } from "@/hooks/use-campaign-wishlist";
 import {
   DISCOVERY_REGIONS,
@@ -256,6 +257,7 @@ const { campaigns } = useCampaigns();
                             <h3 className="text-xl font-bold text-zinc-100 group-hover:text-purple-300 transition-colors">
                               {c.title}
                             </h3>
+                            <CharityBadge badge={c.charityBadge} />
                             <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">{c.description}</p>
                           </div>
 
