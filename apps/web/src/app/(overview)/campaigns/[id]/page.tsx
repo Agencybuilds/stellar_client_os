@@ -45,6 +45,7 @@ import { VerificationMediaGallery, type VerificationMediaItem } from "@/componen
 import { CO2SequestrationProjection } from "@/components/modules/dashboard/CO2SequestrationProjection";
 import { CampaignSustainabilityScore } from "@/components/modules/campaign/sustainability/CampaignSustainabilityScore";
 import { OneTimeDonationButton } from "@/components/modules/campaign/donation/OneTimeDonationButton";
+import { CampaignCharityBadge } from "@/components/modules/campaign/CharityBadge";
 
 const translations = {
   en: {
@@ -487,6 +488,7 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
                 tier={sustainabilityScore.tier}
                 size="sm"
               />
+              <CampaignCharityBadge campaignId={campaign.id} />
             </div>
 
             <div className="flex flex-wrap items-center gap-2 pt-1">

@@ -40,6 +40,17 @@ export interface SponsorRecord {
   sponsoredAt: number;
 }
 
+export type CharityBadgeType = "TAX_EXEMPT" | "CHARITY_VERIFIED";
+
+/** Trust badge awarded to a campaign by a platform admin after reviewing charity documents. */
+export interface CampaignCharityBadge {
+  type: CharityBadgeType;
+  /** Public link to the supporting documentation (e.g. IRS determination letter). */
+  documentationUrl: string;
+  awardedBy: string;
+  awardedAt: number;
+}
+
 export interface CampaignNonprofitPartner {
   legalName: string;
   registrationNumber: string;
@@ -204,6 +215,8 @@ export interface CampaignRecord {
   sponsors: SponsorRecord[];
   /** Partner details are eligible for certificates only after independent verification. */
   nonprofitPartner?: CampaignNonprofitPartner;
+  /** Tax-Exempt / Charity Verified badge shown to backers; set only by a platform admin. */
+  charityBadge?: CampaignCharityBadge;
   statusHistory: StatusHistoryEntry[];
   creatorVerification?: CampaignVerificationSummary;
   verification?: CampaignVerificationSummary;
