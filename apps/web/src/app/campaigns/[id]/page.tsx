@@ -1,4 +1,4 @@
-﻿import { notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Heart, Leaf } from "lucide-react";
 import CampaignShareButtons from "@/components/campaign/CampaignShareButtons";
@@ -6,6 +6,12 @@ import { getCampaign } from "@/services/campaign.service";
 import { VerificationEvidenceGallery } from "@/components/campaign/VerificationEvidenceGallery";
 import { CampaignImpactCalculator } from "@/components/modules/impact/CampaignImpactCalculator";
 import { CampaignDonationPanel } from "@/components/modules/campaign/donation/CampaignDonationPanel";
+import { RewardTiersInstalmentCheckout } from "@/components/modules/campaign/instalments/RewardTiersInstalmentCheckout";
+import { InAppSurveyNotificationBanner } from "@/components/modules/campaign/survey/InAppSurveyNotificationBanner";
+import { CreatorSurveyResultsDashboard } from "@/components/modules/campaign/survey/CreatorSurveyResultsDashboard";
+
+import { CampaignComplianceDocumentsList } from "@/components/modules/campaign/compliance/CampaignComplianceDocumentsList";
+import { RelatedCampaignsShelf } from "@/components/campaign/RelatedCampaignsShelf";
 
 export const runtime = "nodejs";
 
@@ -23,6 +29,7 @@ export default async function CampaignPage({
 
   return (
     <main className="mx-auto max-w-4xl space-y-6 px-6 py-10">
+      <InAppSurveyNotificationBanner campaignId={campaign.id} />
       <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
         <p className="text-sm font-medium text-fundable-purple-2">Impact campaign</p>
         <h1 className="mt-2 text-3xl font-bold text-zinc-950 dark:text-white">{campaign.name}</h1>
@@ -88,7 +95,36 @@ export default async function CampaignPage({
         />
       </section>
 
+      {/* Reward Tiers & Monthly Instalment Plans */}
+      <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+        <RewardTiersInstalmentCheckout
+          campaignId={campaign.id}
+          creatorAddress={campaign.creatorAddress}
+          campaignCloseDate={campaign.deadline}
+        />
+      </section>
+
       <VerificationEvidenceGallery evidence={campaign.verificationEvidence ?? []} />
+
+      {/* Compliance & Due Diligence Documents */}
+      <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+        <CampaignComplianceDocumentsList
+          campaignId={campaign.id}
+          creatorAddress={campaign.creatorAddress}
+          canManage={true}
+          isAdmin={true}
+        />
+      </section>
+
+      {/* Post-Campaign Backer Survey & Feedback Analytics */}
+      <CreatorSurveyResultsDashboard
+        campaignId={campaign.id}
+        creatorAddress={campaign.creatorAddress}
+        campaignStatus={campaign.status}
+      />
+
+      {/* Horizontally Scrollable Related Campaigns Shelf */}
+      <RelatedCampaignsShelf currentCampaignId={campaign.id} />
     </main>
   );
 }
