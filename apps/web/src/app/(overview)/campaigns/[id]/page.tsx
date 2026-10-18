@@ -674,16 +674,11 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
 
             <div className="space-y-4">
               <CampaignFundingVelocityChart
-                data={[
-                  { label: "Mon", raised: 2600 },
-                  { label: "Tue", raised: 3000 },
-                  { label: "Wed", raised: 4200 },
-                  { label: "Thu", raised: 5800 },
-                  { label: "Fri", raised: 7300 },
-                  { label: "Sat", raised: 8100 },
-                  { label: "Sun", raised: 9600 },
-                ]}
-                currency="XLM"
+                campaignId={campaign.id}
+                startDate={campaign.startDate}
+                endDate={campaign.endDate}
+                granularity="daily"
+                currency={campaign.token}
               />
 
               <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-5 space-y-3">
