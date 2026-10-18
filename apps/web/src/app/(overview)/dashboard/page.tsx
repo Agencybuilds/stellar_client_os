@@ -8,6 +8,7 @@ import { TreeMilestoneTimeline } from "@/components/modules/dashboard/TreeMilest
 import ForestReportExport from "@/components/modules/dashboard/ForestReportExport";
 import { CampaignImpactCalculator } from "@/components/modules/impact/CampaignImpactCalculator";
 import CampaignCreatorBadge from "@/components/modules/dashboard/CampaignCreatorBadge";
+import MentorshipPanel from "@/components/modules/dashboard/MentorshipPanel";
 import { CO2SequestrationProjection } from "@/components/modules/dashboard/CO2SequestrationProjection";
 
 const DashboardPage = async () => {
@@ -16,6 +17,7 @@ const DashboardPage = async () => {
             <StatsOverview />
             <CreatorStatsDashboard />
             <CampaignCreatorBadge />
+            <MentorshipPanel />
             <ForestReportExport />
             <DashboardOverview />
             <TreeMilestoneTimeline />
