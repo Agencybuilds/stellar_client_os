@@ -18,6 +18,7 @@ import {
   Crown,
   TreePine,
   Download,
+  Coins,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -33,6 +34,7 @@ import { BackerCommunity } from "@/components/modules/campaign/community/BackerC
 import { CampaignFollowButton } from "@/components/modules/campaign/follow/CampaignFollowButton";
 import { TopBackers } from "@/components/modules/campaign/backers/TopBackers";
 import { CampaignReviews } from "@/components/modules/campaign/reviews/CampaignReviews";
+import { MilestoneFundRelease } from "@/components/modules/campaign/milestones/MilestoneFundRelease";
 import { TOP_BACKERS_LIMIT } from "@/types/campaign-backers";
 import { CampaignFundingVelocityChart } from "@/components/modules/campaign/FundingVelocityChart";
 import { FundingCounter } from "@/components/modules/campaign/FundingCounter";
@@ -608,6 +610,9 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
           <TabsTrigger value="analytics" className="text-xs font-semibold data-[state=active]:bg-purple-600 data-[state=active]:text-white">
             <BarChart3 className="mr-1.5 h-4 w-4 text-emerald-400" /> Analytics
           </TabsTrigger>
+          <TabsTrigger value="milestone-release" className="text-xs font-semibold data-[state=active]:bg-purple-600 data-[state=active]:text-white">
+            <Coins className="mr-1.5 h-4 w-4 text-emerald-400" /> Tranche Releases
+          </TabsTrigger>
         </TabsList>
 
         {/* Tab 1: Overview */}
@@ -701,6 +706,14 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
 
           {/* Backer testimonials & star ratings (#1250) */}
           <CampaignReviews campaignId={campaign.id} viewerAddress={viewerAddress} />
+
+          {/* Milestone-based fund release tied to backer approval vote */}
+          <MilestoneFundRelease
+            campaignId={campaign.id}
+            isCreator={isCreatorView}
+            viewerAddress={viewerAddress}
+            campaignStatus={campaign.status}
+          />
         </TabsContent>
 
         <TabsContent value="ar-view">
@@ -777,6 +790,16 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
         {/* Tab 8: Analytics for creators */}
         <TabsContent value="analytics">
           <CampaignAnalyticsDashboard campaignId={campaign.id} campaignTitle={campaign.title} />
+        </TabsContent>
+
+        {/* Tab 9: Milestone-based fund release tied to backer approval vote */}
+        <TabsContent value="milestone-release">
+          <MilestoneFundRelease
+            campaignId={campaign.id}
+            isCreator={isCreatorView}
+            viewerAddress={viewerAddress}
+            campaignStatus={campaign.status}
+          />
         </TabsContent>
       </Tabs>
 
