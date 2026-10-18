@@ -113,6 +113,12 @@ const { campaigns } = useCampaigns();
             </Button>
           </Link>
 
+          <Link href="/campaigns/social-scheduler">
+            <Button variant="outline" className="border-sky-800 bg-sky-950/40 text-sky-300 hover:bg-sky-900/60 font-semibold text-xs">
+              <Megaphone className="mr-1.5 h-3.5 w-3.5" /> Social Scheduler (#1266)
+            </Button>
+          </Link>
+
           <Link href="/grants">
             <Button variant="outline" className="border-amber-800 bg-amber-950/40 text-amber-300 hover:bg-amber-950/60 font-semibold shadow-lg text-xs">
               <Trophy className="mr-1.5 h-3.5 w-3.5" /> Grant Programs
